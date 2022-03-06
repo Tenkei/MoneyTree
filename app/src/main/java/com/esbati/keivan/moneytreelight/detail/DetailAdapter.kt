@@ -6,14 +6,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.esbati.keivan.moneytreelight.R
 import com.esbati.keivan.moneytreelight.Transaction
+import com.esbati.keivan.moneytreelight.inflate
 
 class TransactionAdapter(
     private val hook: (Transaction) -> Unit
 ) : ListAdapter<Transaction, TransactionViewHolder>(TransactionDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
-        return TransactionViewHolder(LinearLayout(parent.context), hook)
+        return TransactionViewHolder(parent.inflate(R.layout.cell_transaction) as ViewGroup, hook)
     }
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
@@ -24,16 +26,19 @@ class TransactionAdapter(
 class TransactionViewHolder(itemView: ViewGroup, hook: (Transaction) -> Unit): RecyclerView.ViewHolder(itemView) {
 
     private var data: Transaction? = null
-    private val textView = TextView(itemView.context)
+    private val date: TextView = itemView.findViewById(R.id.transaction_date)
+    private val description: TextView = itemView.findViewById(R.id.transaction_description)
+    private val amount: TextView = itemView.findViewById(R.id.transaction_amount)
 
     init {
         itemView.setOnClickListener { data?.let{ hook.invoke(it) } }
-        itemView.addView(textView)
     }
 
-    fun bindView(Transaction: Transaction){
-        data = Transaction
-        textView.text = Transaction.description
+    fun bindView(transaction: Transaction){
+        data = transaction
+        date.text = transaction.date
+        description.text = transaction.description
+        amount.text = transaction.amount.toString()
     }
 }
 

@@ -7,13 +7,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.esbati.keivan.moneytreelight.Account
+import com.esbati.keivan.moneytreelight.R
+import com.esbati.keivan.moneytreelight.inflate
 
 class Adapter(
     private val hook: (Account) -> Unit
 ) : ListAdapter<Account, AccountViewHolder>(AccountDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountViewHolder {
-        return AccountViewHolder(LinearLayout(parent.context), hook)
+        return AccountViewHolder(parent.inflate(R.layout.cell_account) as ViewGroup, hook)
     }
 
     override fun onBindViewHolder(holder: AccountViewHolder, position: Int) {
@@ -24,16 +26,20 @@ class Adapter(
 class AccountViewHolder(itemView: ViewGroup, hook: (Account) -> Unit): RecyclerView.ViewHolder(itemView) {
 
     private var data: Account? = null
-    private val textView = TextView(itemView.context)
+
+    private val title: TextView = itemView.findViewById(R.id.account_institution)
+    private val name: TextView = itemView.findViewById(R.id.account_name)
+    private val balance: TextView = itemView.findViewById(R.id.account_current_balance)
 
     init {
         itemView.setOnClickListener { data?.let{ hook.invoke(it) } }
-        itemView.addView(textView)
     }
 
     fun bindView(account: Account){
         data = account
-        textView.text = account.name
+        title.text = account.institution
+        name.text = account.name
+        balance.text = account.currency + account.current_balance
     }
 }
 
