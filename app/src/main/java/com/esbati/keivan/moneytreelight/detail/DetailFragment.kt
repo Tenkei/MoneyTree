@@ -1,4 +1,4 @@
-package com.esbati.keivan.moneytreelight.main
+package com.esbati.keivan.moneytreelight.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,33 +7,21 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.esbati.keivan.moneytreelight.FakeRepository
-import com.esbati.keivan.moneytreelight.detail.DetailFragment
+import com.esbati.keivan.moneytreelight.main.Adapter
 import kotlinx.coroutines.Dispatchers
 
-class MainFragment : Fragment() {
+class DetailFragment : Fragment() {
 
     private val viewModel by lazy {
-        MainViewModel(FakeRepository(requireContext(), Dispatchers.IO))
+        DetailViewModel(FakeRepository(requireContext(), Dispatchers.IO), requireArguments().getLong("id"))
     }
 
     private lateinit var recyclerView: RecyclerView
-    private val adapter = Adapter {
-        activity?.supportFragmentManager?.commit {
-            replace(
-                android.R.id.content,
-                DetailFragment::class.java,
-                bundleOf("id" to it.id),
-                null
-            )
-            addToBackStack("detail")
-        }
-    }
+    private val adapter = TransactionAdapter { Toast.makeText(context, it.description, Toast.LENGTH_LONG).show() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +36,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.accounts.observe(this as LifecycleOwner) {
+        viewModel.transactions.observe(this as LifecycleOwner) {
             adapter.submitList(it)
         }
     }
