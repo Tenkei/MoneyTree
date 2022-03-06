@@ -10,16 +10,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.esbati.keivan.moneytreelight.FakeRepository
 import com.esbati.keivan.moneytreelight.detail.DetailFragment
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 
 class MainFragment : Fragment() {
 
     private val viewModel by lazy {
-        MainViewModel(FakeRepository(requireContext(), Dispatchers.IO))
+        MainViewModel(lifecycleScope, FakeRepository(requireContext(), Dispatchers.IO))
     }
 
     private lateinit var recyclerView: RecyclerView
