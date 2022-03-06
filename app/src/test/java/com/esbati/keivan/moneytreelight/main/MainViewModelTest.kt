@@ -23,15 +23,18 @@ import org.mockito.kotlin.verify
 
 @RunWith(Parameterized::class)
 @ExperimentalCoroutinesApi
-class MainViewModelTest(private val input: List<Account>, private val output: List<Account>) {
+class MainViewModelTest(private val input: List<Account>, private val output: List<MainRow>) {
 
     companion object {
         @JvmStatic
-        @Parameterized.Parameters(name = "{index}: sorted({0})={1}")
+        @Parameterized.Parameters(name = "{index}: Presentation Model ({0})={1}")
         fun data(): Collection<Array<List<Any>>> = listOf(
             arrayOf(listOf(), listOf()),
-            arrayOf(listOf(TEST_ACCOUNT), listOf(TEST_ACCOUNT)),
-            arrayOf(TEST_ACCOUNTS_UNSORTED, TEST_ACCOUNTS_SORTED)
+            arrayOf(TEST_ACCOUNTS_SINGLE, TEST_ROWS_SINGLE),
+            arrayOf(TEST_ACCOUNTS_MULTIPLE_SAME_INSTITUTION, TEST_ROWS_MULTIPLE_SAME_INSTITUTION),
+            arrayOf(TEST_ACCOUNTS_MULTIPLE, TEST_ROWS_MULTIPLE),
+            arrayOf(TEST_ACCOUNTS_UNSORTED_SAME_INSTITUTION, TEST_ACCOUNTS_SORTED_SAME_INSTITUTION),
+            arrayOf(TEST_ACCOUNTS_UNSORTED, TEST_ACCOUNTS_SORTED),
         )
     }
 
@@ -41,7 +44,7 @@ class MainViewModelTest(private val input: List<Account>, private val output: Li
     private val dispatcher = Dispatchers.Unconfined
     private val scope = TestScope()
     private val repository: FakeRepository = mock()
-    private val observer: Observer<List<Account>> = mock()
+    private val observer: Observer<List<MainRow>> = mock()
 
     private val viewModel = MainViewModel(scope, repository)
 
@@ -69,21 +72,103 @@ class MainViewModelTest(private val input: List<Account>, private val output: Li
 }
 
 private val TEST_ACCOUNT = Account(
+    id = 1,
+    name = "account_name",
+    institution = "account_institution",
+    currency = "account_currency",
+    current_balance = 22.5,
+    current_balance_in_base = 2306.0
+)
+
+private val TEST_ACCOUNTS_SINGLE = listOf(TEST_ACCOUNT)
+private val TEST_ROWS_SINGLE = listOf(
+    InstitutionRow("account_institution"),
+    AccountRow(
         id = 1,
         name = "account_name",
-        institution = "account_bank",
-        currency = "account_currency",
-        current_balance = 22.5,
-        current_balance_in_base = 2306.0
+        balance = "account_currency22.5"
+    )
+)
+
+private val TEST_ACCOUNTS_MULTIPLE_SAME_INSTITUTION = listOf(
+    TEST_ACCOUNT.copy(id = 1, name = "account_first"),
+    TEST_ACCOUNT.copy(id = 2, name = "account_second")
+)
+private val TEST_ROWS_MULTIPLE_SAME_INSTITUTION = listOf(
+    InstitutionRow("account_institution"),
+    AccountRow(
+        id = 1,
+        name = "account_first",
+        balance = "account_currency22.5"
+    ),
+    AccountRow(
+        id = 2,
+        name = "account_second",
+        balance = "account_currency22.5"
+    )
+)
+
+private val TEST_ACCOUNTS_MULTIPLE = listOf(
+    TEST_ACCOUNT.copy(id = 1, institution = "institution_first"),
+    TEST_ACCOUNT.copy(id = 2, institution = "institution_second")
+)
+private val TEST_ROWS_MULTIPLE = listOf(
+    InstitutionRow("institution_first"),
+    AccountRow(
+        id = 1,
+        name = "account_name",
+        balance = "account_currency22.5"
+    ),
+    InstitutionRow("institution_second"),
+    AccountRow(
+        id = 2,
+        name = "account_name",
+        balance = "account_currency22.5"
+    )
+)
+
+private val TEST_ACCOUNTS_UNSORTED_SAME_INSTITUTION = listOf(
+    TEST_ACCOUNT.copy(id = 1, name = "account_B"),
+    TEST_ACCOUNT.copy(id = 2, name = "account_A"),
+)
+private val TEST_ACCOUNTS_SORTED_SAME_INSTITUTION = listOf(
+    InstitutionRow("account_institution"),
+    AccountRow(
+        id = 2,
+        name = "account_A",
+        balance = "account_currency22.5"
+    ),
+    AccountRow(
+        id = 1,
+        name = "account_B",
+        balance = "account_currency22.5"
+    ),
 )
 
 private val TEST_ACCOUNTS_UNSORTED = listOf(
-    TEST_ACCOUNT.copy(name = "B"),
-    TEST_ACCOUNT.copy(name = "A"),
+    TEST_ACCOUNT.copy(
+        id = 1,
+        name = "account_B",
+        institution = "account_B_institution"
+    ),
+    TEST_ACCOUNT.copy(
+        id = 2,
+        name = "account_A",
+        institution = "account_A_institution"
+    ),
 )
-
 private val TEST_ACCOUNTS_SORTED = listOf(
-    TEST_ACCOUNT.copy(name = "A"),
-    TEST_ACCOUNT.copy(name = "B"),
+    InstitutionRow("account_A_institution"),
+    AccountRow(
+        id = 2,
+        name = "account_A",
+        balance = "account_currency22.5"
+    ),
+    InstitutionRow("account_B_institution"),
+    AccountRow(
+        id = 1,
+        name = "account_B",
+        balance = "account_currency22.5"
+    ),
 )
 

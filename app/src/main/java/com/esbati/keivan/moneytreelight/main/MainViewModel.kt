@@ -20,7 +20,30 @@ class MainViewModel(
         }
     }
 
-    val accounts: LiveData<List<Account>> = Transformations.map(_accounts) {
-        it.sortedBy { account -> account.name }
+    val accounts: LiveData<List<MainRow>> = Transformations.map(_accounts) { accounts ->
+        accounts.sortedBy { it.name }
+            .groupBy { it.institution }
+            .map { (institution, accounts) ->
+                mutableListOf<MainRow>().apply {
+                    add(InstitutionRow(institution))
+                    addAll(
+                        accounts.map {
+                            AccountRow(it.id, it.name, it.currency + it.current_balance)
+                        }
+                    )
+                }
+            }.flatten()
     }
 }
+
+sealed class MainRow
+
+data class InstitutionRow(
+    val name: String
+): MainRow()
+
+data class AccountRow(
+    val id: Long,
+    val name: String,
+    val balance: String
+): MainRow()
