@@ -7,30 +7,31 @@
     android:padding="8dp">
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/transaction_date"
+        android:id="@+id/header_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="12th" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/transaction_description"
+        android:id="@+id/header_balance_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/transaction_amount"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/transaction_date"
+        app:layout_constraintEnd_toStartOf="@+id/header_balance_out"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/header_date"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Mocha latte grande hot" />
+        tools:text="JPY5000" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/transaction_amount"
+        android:id="@+id/header_balance_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

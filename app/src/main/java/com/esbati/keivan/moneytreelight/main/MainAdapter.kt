@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.esbati.keivan.moneytreelight.DataViewHolder
 import com.esbati.keivan.moneytreelight.R
 import com.esbati.keivan.moneytreelight.inflate
 import java.lang.IllegalArgumentException
@@ -34,16 +35,6 @@ class Adapter(
     override fun onBindViewHolder(holder: DataViewHolder<MainRow>, position: Int) {
         holder.bindData(getItem(position))
     }
-}
-
-sealed class DataViewHolder<T>(itemView: ViewGroup): RecyclerView.ViewHolder(itemView) {
-    var data: T? = null
-    fun bindData(item: T) {
-        data = item
-        setupView(item)
-    }
-
-    abstract fun setupView(item: T)
 }
 
 class InstitutionViewHolder(itemView: ViewGroup): DataViewHolder<InstitutionRow>(itemView) {
