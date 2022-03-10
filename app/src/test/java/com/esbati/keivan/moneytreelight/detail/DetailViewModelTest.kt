@@ -2,6 +2,8 @@ package com.esbati.keivan.moneytreelight.detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.esbati.keivan.moneytreelight.TestObjects
+import com.esbati.keivan.moneytreelight.TestObjects.TRANSACTION
 import com.esbati.keivan.moneytreelight.data.Repository
 import com.esbati.keivan.moneytreelight.data.Transaction
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +50,7 @@ class DetailViewModelTest(
     private val repository: Repository = mock()
     private val observer: Observer<List<DetailRow>> = mock()
 
-    private val viewModel = DetailViewModel(scope, repository, TEST_ID)
+    private val viewModel = DetailViewModel(scope, repository, TestObjects.ACCOUNT_ID)
 
     @Before
     fun setup() {
@@ -63,7 +65,7 @@ class DetailViewModelTest(
     @Test
     fun `accounts should be sorted by names`() {
         repository.stub {
-            onBlocking { it.fetchTransactions(TEST_ID) } doReturn input
+            onBlocking { it.fetchTransactions(TestObjects.ACCOUNT_ID) } doReturn input
         }
 
         viewModel.transactions.observeForever(observer)
@@ -73,26 +75,16 @@ class DetailViewModelTest(
     }
 }
 
-private const val TEST_ID = 1L
-private val TEST_TRANSACTION = Transaction(
-    account_id = 2,
-    amount = -442.0,
-    category_id = 112,
-    date = "2017-05-26T00:00:00+09:00",
-    description = "transaction_description",
-    id = 21
-)
-
-private val TEST_TRANSACTIONS_SINGLE = listOf(TEST_TRANSACTION)
+private val TEST_TRANSACTIONS_SINGLE = listOf(TRANSACTION)
 private val TEST_ROWS_SINGLE = listOf(
     MonthHeaderRow("2017", "05", "0.0", "-442.0"),
     TransactionRow(21, "26", "transaction_description", "-442.0")
 )
 
 private val TEST_TRANSACTIONS_MULTIPLE_SAME_MONTH = listOf(
-    TEST_TRANSACTION.copy(id = 11, amount = 150.0),
-    TEST_TRANSACTION.copy(id = 12, amount = 100.0),
-    TEST_TRANSACTION.copy(id = 13, amount = -100.0),
+    TRANSACTION.copy(id = 11, amount = 150.0),
+    TRANSACTION.copy(id = 12, amount = 100.0),
+    TRANSACTION.copy(id = 13, amount = -100.0),
 )
 private val TEST_ROWS_MULTIPLE_SAME_MONTH = listOf(
     MonthHeaderRow("2017", "05", "250.0", "-100.0"),
@@ -102,9 +94,9 @@ private val TEST_ROWS_MULTIPLE_SAME_MONTH = listOf(
 )
 
 private val TEST_TRANSACTIONS_MULTIPLE = listOf(
-    TEST_TRANSACTION.copy(id = 11, date = "2017-05-26T00:00:00+09:00", amount = 150.0),
-    TEST_TRANSACTION.copy(id = 12, date = "2017-05-26T00:00:00+09:00", amount = 100.0),
-    TEST_TRANSACTION.copy(id = 13, date = "2017-04-26T00:00:00+09:00", amount = -100.0),
+    TRANSACTION.copy(id = 11, date = "2017-05-26T00:00:00+09:00", amount = 150.0),
+    TRANSACTION.copy(id = 12, date = "2017-05-26T00:00:00+09:00", amount = 100.0),
+    TRANSACTION.copy(id = 13, date = "2017-04-26T00:00:00+09:00", amount = -100.0),
 )
 private val TEST_ROWS_MULTIPLE = listOf(
     MonthHeaderRow("2017", "05", "250.0", "0.0"),
@@ -115,9 +107,9 @@ private val TEST_ROWS_MULTIPLE = listOf(
 )
 
 private val TEST_TRANSACTIONS_MULTIPLE_UNSORTED = listOf(
-    TEST_TRANSACTION.copy(id = 11, date = "2017-05-26T00:00:00+09:00", amount = 150.0),
-    TEST_TRANSACTION.copy(id = 12, date = "2017-04-26T00:00:00+09:00", amount = -100.0),
-    TEST_TRANSACTION.copy(id = 13, date = "2017-05-26T00:00:00+09:00", amount = 100.0),
+    TRANSACTION.copy(id = 11, date = "2017-05-26T00:00:00+09:00", amount = 150.0),
+    TRANSACTION.copy(id = 12, date = "2017-04-26T00:00:00+09:00", amount = -100.0),
+    TRANSACTION.copy(id = 13, date = "2017-05-26T00:00:00+09:00", amount = 100.0),
 )
 private val TEST_ROWS_MULTIPLE_SORTED = listOf(
     MonthHeaderRow("2017", "05", "250.0", "0.0"),

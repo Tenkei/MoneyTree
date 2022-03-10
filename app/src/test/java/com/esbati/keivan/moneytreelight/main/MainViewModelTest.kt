@@ -2,6 +2,7 @@ package com.esbati.keivan.moneytreelight.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.esbati.keivan.moneytreelight.TestObjects.ACCOUNT
 import com.esbati.keivan.moneytreelight.data.Account
 import com.esbati.keivan.moneytreelight.data.Repository
 import kotlinx.coroutines.Dispatchers
@@ -71,16 +72,7 @@ class MainViewModelTest(private val input: List<Account>, private val output: Li
     }
 }
 
-private val TEST_ACCOUNT = Account(
-    id = 1,
-    name = "account_name",
-    institution = "account_institution",
-    currency = "account_currency",
-    current_balance = 22.5,
-    current_balance_in_base = 2306.0
-)
-
-private val TEST_ACCOUNTS_SINGLE = listOf(TEST_ACCOUNT)
+private val TEST_ACCOUNTS_SINGLE = listOf(ACCOUNT)
 private val TEST_ROWS_SINGLE = listOf(
     InstitutionRow("account_institution"),
     AccountRow(
@@ -91,8 +83,8 @@ private val TEST_ROWS_SINGLE = listOf(
 )
 
 private val TEST_ACCOUNTS_MULTIPLE_SAME_INSTITUTION = listOf(
-    TEST_ACCOUNT.copy(id = 1, name = "account_first"),
-    TEST_ACCOUNT.copy(id = 2, name = "account_second")
+    ACCOUNT.copy(id = 1, name = "account_first"),
+    ACCOUNT.copy(id = 2, name = "account_second")
 )
 private val TEST_ROWS_MULTIPLE_SAME_INSTITUTION = listOf(
     InstitutionRow("account_institution"),
@@ -109,8 +101,8 @@ private val TEST_ROWS_MULTIPLE_SAME_INSTITUTION = listOf(
 )
 
 private val TEST_ACCOUNTS_MULTIPLE = listOf(
-    TEST_ACCOUNT.copy(id = 1, institution = "institution_first"),
-    TEST_ACCOUNT.copy(id = 2, institution = "institution_second")
+    ACCOUNT.copy(id = 1, institution = "institution_first"),
+    ACCOUNT.copy(id = 2, institution = "institution_second")
 )
 private val TEST_ROWS_MULTIPLE = listOf(
     InstitutionRow("institution_first"),
@@ -128,8 +120,8 @@ private val TEST_ROWS_MULTIPLE = listOf(
 )
 
 private val TEST_ACCOUNTS_UNSORTED_SAME_INSTITUTION = listOf(
-    TEST_ACCOUNT.copy(id = 1, name = "account_B"),
-    TEST_ACCOUNT.copy(id = 2, name = "account_A"),
+    ACCOUNT.copy(id = 1, name = "account_B"),
+    ACCOUNT.copy(id = 2, name = "account_A"),
 )
 private val TEST_ACCOUNTS_SORTED_SAME_INSTITUTION = listOf(
     InstitutionRow("account_institution"),
@@ -146,12 +138,12 @@ private val TEST_ACCOUNTS_SORTED_SAME_INSTITUTION = listOf(
 )
 
 private val TEST_ACCOUNTS_UNSORTED = listOf(
-    TEST_ACCOUNT.copy(
+    ACCOUNT.copy(
         id = 1,
         name = "account_B",
         institution = "account_B_institution"
     ),
-    TEST_ACCOUNT.copy(
+    ACCOUNT.copy(
         id = 2,
         name = "account_A",
         institution = "account_A_institution"

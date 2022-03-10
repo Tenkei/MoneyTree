@@ -16,8 +16,8 @@ class Repository(
         try {
             endpoints.getAccounts().accounts
         } catch (e: Exception) {
-            Log.d("Repository", e.message.toString())
-            listOf()
+            Log.e("Repository", e.message.toString(), e)
+            throw e
         }
     }
 
@@ -25,8 +25,8 @@ class Repository(
         try {
             endpoints.getTransactions(id).transactions
         } catch (e: Exception) {
-            Log.d("Repository", e.message.toString())
-            listOf()
+            Log.e("Repository", e.message.toString(), e)
+            throw e
         }
     }
 }
