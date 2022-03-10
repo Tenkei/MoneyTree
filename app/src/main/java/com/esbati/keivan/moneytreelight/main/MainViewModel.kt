@@ -5,18 +5,24 @@ import com.esbati.keivan.moneytreelight.data.Account
 import com.esbati.keivan.moneytreelight.data.Repository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class MainViewModel(
-    private val scope: CoroutineScope,
+    scope: CoroutineScope,
     private val repository: Repository,
 ) : ViewModel() {
 
     private val _accounts = MutableLiveData<List<Account>>()
 
+    // TODO Fetch data on observation not initialization
     init {
         scope.launch {
-            val accounts = repository.fetchAccounts()
-            _accounts.postValue(accounts)
+            // TODO show loading
+            try {
+                _accounts.postValue(repository.fetchAccounts())
+            } catch (e: Exception) {
+                // TODO show error
+            }
         }
     }
 

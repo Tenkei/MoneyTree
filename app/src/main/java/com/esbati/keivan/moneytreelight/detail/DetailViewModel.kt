@@ -8,19 +8,25 @@ import com.esbati.keivan.moneytreelight.data.Repository
 import com.esbati.keivan.moneytreelight.data.Transaction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class DetailViewModel(
-    private val scope: CoroutineScope,
+    scope: CoroutineScope,
     private val repository: Repository,
     private val id: Long
 ) : ViewModel() {
 
     private val _transactions: MutableLiveData<List<Transaction>> = MutableLiveData()
 
+    // TODO Fetch data on observation not initialization
     init {
         scope.launch {
-            val transactions = repository.fetchTransactions(id)
-            _transactions.postValue(transactions)
+            // TODO show loading
+            try {
+                _transactions.postValue(repository.fetchTransactions(id))
+            } catch (e: Exception) {
+                // TODO show error
+            }
         }
     }
 
