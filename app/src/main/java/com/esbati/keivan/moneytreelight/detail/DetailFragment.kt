@@ -9,6 +9,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.esbati.keivan.moneytreelight.ServiceLocator
 import com.esbati.keivan.moneytreelight.data.Repository
 import kotlinx.coroutines.Dispatchers
 
@@ -17,7 +18,7 @@ class DetailFragment : Fragment() {
     private val viewModel by lazy {
         DetailViewModel(
             lifecycleScope,
-            Repository(Dispatchers.IO),
+            ServiceLocator.getInstance().get(),
             requireArguments().getLong("id")
         )
     }

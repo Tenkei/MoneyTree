@@ -8,12 +8,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 class Repository(
-    private val io: CoroutineDispatcher
+    private val io: CoroutineDispatcher,
+    private val endpoints: Endpoints
 ) {
-    private val endpoints: Endpoints = Retrofit.Builder()
-        .baseUrl("https://622a009abe12fc4538af08f7.mockapi.io/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build().create()
 
     suspend fun fetchAccounts(): List<Account> = withContext(io) {
         try {

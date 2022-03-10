@@ -11,6 +11,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.esbati.keivan.moneytreelight.ServiceLocator
 import com.esbati.keivan.moneytreelight.data.Repository
 import com.esbati.keivan.moneytreelight.detail.DetailFragment
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 class MainFragment : Fragment() {
 
     private val viewModel by lazy {
-        MainViewModel(lifecycleScope, Repository(Dispatchers.IO))
+        MainViewModel(lifecycleScope, ServiceLocator.getInstance().get())
     }
 
     private lateinit var recyclerView: RecyclerView
