@@ -14,7 +14,7 @@ interface Endpoints {
     suspend fun getTransactions(@Path("account_id") accountId: Long): TransactionsResponse
 }
 
-class FakeEndpoints(
+class DummyEndpoints(
     private val context: Context
 ) : Endpoints {
 
