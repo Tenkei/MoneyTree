@@ -2,8 +2,8 @@ package com.esbati.keivan.moneytreelight.detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.esbati.keivan.moneytreelight.FakeRepository
-import com.esbati.keivan.moneytreelight.Transaction
+import com.esbati.keivan.moneytreelight.data.Repository
+import com.esbati.keivan.moneytreelight.data.Transaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
@@ -45,7 +45,7 @@ class DetailViewModelTest(
 
     private val dispatcher = Dispatchers.Unconfined
     private val scope = TestScope()
-    private val repository: FakeRepository = mock()
+    private val repository: Repository = mock()
     private val observer: Observer<List<DetailRow>> = mock()
 
     private val viewModel = DetailViewModel(scope, repository, TEST_ID)

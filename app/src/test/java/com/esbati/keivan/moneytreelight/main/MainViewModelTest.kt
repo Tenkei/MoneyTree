@@ -2,8 +2,8 @@ package com.esbati.keivan.moneytreelight.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.esbati.keivan.moneytreelight.Account
-import com.esbati.keivan.moneytreelight.FakeRepository
+import com.esbati.keivan.moneytreelight.data.Account
+import com.esbati.keivan.moneytreelight.data.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
@@ -43,7 +43,7 @@ class MainViewModelTest(private val input: List<Account>, private val output: Li
 
     private val dispatcher = Dispatchers.Unconfined
     private val scope = TestScope()
-    private val repository: FakeRepository = mock()
+    private val repository: Repository = mock()
     private val observer: Observer<List<MainRow>> = mock()
 
     private val viewModel = MainViewModel(scope, repository)

@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.esbati.keivan.moneytreelight.FakeRepository
-import com.esbati.keivan.moneytreelight.Transaction
+import com.esbati.keivan.moneytreelight.data.Repository
+import com.esbati.keivan.moneytreelight.data.Transaction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val scope: CoroutineScope,
-    private val repository: FakeRepository,
+    private val repository: Repository,
     private val id: Long
 ) : ViewModel() {
 
