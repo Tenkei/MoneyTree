@@ -6,6 +6,7 @@ import com.esbati.keivan.moneytreelight.data.Repository
 import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 class App : Application() {
 
@@ -17,10 +18,10 @@ class App : Application() {
                 Retrofit.Builder()
                     .baseUrl("https://622a009abe12fc4538af08f7.mockapi.io/")
                     .addConverterFactory(GsonConverterFactory.create())
-                    .build().create(Endpoints::class.java)
+                    .build()
             }
             single { Dispatchers.IO }
-            single { Repository(get(), get()) }
+            single { Repository(get(), get<Retrofit>().create()) }
         }
     }
 }
