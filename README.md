@@ -41,3 +41,5 @@ As for testing everything except the View is supposed to be covered by unit test
 	* Wrapping responses -> E.g. Result
 	* Throwing exceptions
 	* Default values -> Not a good idea
+
+<string name="terms_condition_url_2" translatable="false">https://network.mobile.rakuten.co.jp/terms/pdf/rakuten_link.pdf</string>
